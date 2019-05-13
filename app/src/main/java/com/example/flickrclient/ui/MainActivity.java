@@ -5,12 +5,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.widget.Toast;
 
 import com.example.flickrclient.R;
 import com.example.flickrclient.adapter.PhotoAdapter;
 import com.example.flickrclient.model.Flicker;
+import com.example.flickrclient.model.FlickerPhotos;
 import com.example.flickrclient.model.GetDataService;
 import com.example.flickrclient.model.Photo;
 import com.example.flickrclient.model.RetrofitClientInstance;
@@ -32,11 +32,11 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);//MainActivity sınıfımızın hangi View'i kullanacağını set ediyoruz
 
-        getAllUsers();
+        getAllPhotos();
 
     }
 
-    private void getAllUsers()
+    private void getAllPhotos()
     {
         progressDoalog = new ProgressDialog(this);
         progressDoalog.setMessage("Loading....");
@@ -51,7 +51,8 @@ public class MainActivity extends AppCompatActivity {
             public void onResponse(Call<Flicker> call, Response<Flicker> response) {
                 progressDoalog.dismiss();
                 Flicker flicker = response.body();
-                List<Photo> photos = flicker.getPhotos().getPhoto();
+                FlickerPhotos flickerPhotos = flicker.getPhotos();
+                List<Photo> photos = flickerPhotos.getPhoto();
                 generateDataList(photos);
             }
 
